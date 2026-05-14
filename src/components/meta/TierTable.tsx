@@ -1,5 +1,6 @@
 import type { ClassStats } from "@/lib/types";
-import { CLASS_ICONS, CLASS_TEXT_COLORS, CLASS_BG_COLORS } from "@/lib/class-colors";
+import { CLASS_TEXT_COLORS, CLASS_BG_COLORS } from "@/lib/class-colors";
+import { ClassIcon } from "@/components/ClassIcon";
 import { TrendingUp, TrendingDown, Minus } from "lucide-react";
 
 interface Props {
@@ -47,7 +48,7 @@ export function TierTable({ stats }: Props) {
                   className="flex items-center justify-between bg-black/20 rounded-md px-3 py-2"
                 >
                   <div className="flex items-center gap-2">
-                    <span className="text-lg">{CLASS_ICONS[stat.className]}</span>
+                    <ClassIcon name={stat.className} size={24} />
                     <span className={`text-sm font-medium ${CLASS_TEXT_COLORS[stat.className]}`}>
                       {stat.className}
                     </span>

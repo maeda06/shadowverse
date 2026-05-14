@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Plus, Trash2, Save, RefreshCw } from "lucide-react";
-import { CLASS_ICONS } from "@/lib/class-colors";
+import { ClassIcon } from "@/components/ClassIcon";
 import type { Video, ClassName } from "@/lib/types";
 
 const ALL_CLASSES: ClassName[] = [
@@ -128,7 +128,7 @@ export default function AdminVideosPage() {
                         className={`px-2 py-1 rounded-full text-xs transition-colors ${
                           video.classTags.includes(cls) ? "bg-amber-400/20 text-amber-400 border border-amber-400/40" : "bg-secondary text-muted-foreground border border-border"
                         }`}>
-                        {CLASS_ICONS[cls]} {cls}
+                        <ClassIcon name={cls} size={14} /> {cls}
                       </button>
                     ))}
                   </div>

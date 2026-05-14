@@ -9,7 +9,8 @@ import { WinRateChart } from "@/components/meta/WinRateChart";
 import { TierTable } from "@/components/meta/TierTable";
 import { TrendChart } from "@/components/meta/TrendChart";
 import { CURRENT_WEEK, PREV_WEEKS_USAGE, MATCHUP_DATA } from "@/lib/mock-data";
-import { CLASS_ICONS, CLASS_TEXT_COLORS } from "@/lib/class-colors";
+import { CLASS_TEXT_COLORS } from "@/lib/class-colors";
+import { ClassIcon } from "@/components/ClassIcon";
 import type { ClassName } from "@/lib/types";
 
 const TREND_CLASSES: ClassName[] = ["ドラゴン", "ナイトメア", "エルフ", "ウィッチ", "ロイヤル"];
@@ -66,7 +67,7 @@ export default function MetaPage() {
             <Card key={stat.className} className="bg-card/50">
               <CardContent className="p-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-xl">{CLASS_ICONS[stat.className]}</span>
+                  <ClassIcon name={stat.className} size={22} />
                   <span className={`text-sm font-semibold ${CLASS_TEXT_COLORS[stat.className]}`}>
                     {stat.className}
                   </span>
@@ -108,7 +109,7 @@ export default function MetaPage() {
                 return (
                   <div key={stat.className} className="flex items-center justify-between text-xs text-muted-foreground">
                     <span className="flex items-center gap-1.5">
-                      {CLASS_ICONS[stat.className]}
+                      <ClassIcon name={stat.className} size={14} />
                       <span className={CLASS_TEXT_COLORS[stat.className]}>{stat.className}</span>
                     </span>
                     <div className="flex items-center gap-4">
@@ -136,7 +137,7 @@ export default function MetaPage() {
                 return (
                   <div key={stat.className} className="flex items-center justify-between text-xs text-muted-foreground">
                     <span className="flex items-center gap-1.5">
-                      {CLASS_ICONS[stat.className]}
+                      <ClassIcon name={stat.className} size={14} />
                       <span className={CLASS_TEXT_COLORS[stat.className]}>{stat.className}</span>
                     </span>
                     <div className="flex items-center gap-4">
@@ -190,8 +191,10 @@ export default function MetaPage() {
                   <th className="text-left py-2 px-3 text-muted-foreground font-normal text-xs">vs</th>
                   {MATCHUP_CLASSES.map((cls) => (
                     <th key={cls} className="py-2 px-3 text-center text-xs text-muted-foreground font-normal">
-                      {CLASS_ICONS[cls]}<br />
-                      <span className={CLASS_TEXT_COLORS[cls]}>{cls.slice(0, 3)}</span>
+                      <div className="flex flex-col items-center gap-0.5">
+                    <ClassIcon name={cls} size={20} />
+                    <span className={CLASS_TEXT_COLORS[cls]}>{cls.slice(0, 3)}</span>
+                  </div>
                     </th>
                   ))}
                 </tr>
@@ -201,7 +204,7 @@ export default function MetaPage() {
                   <tr key={rowClass} className="border-t border-border/40">
                     <td className="py-2 px-3 text-xs font-medium">
                       <span className="flex items-center gap-1">
-                        {CLASS_ICONS[rowClass]}
+                        <ClassIcon name={rowClass} size={14} />
                         <span className={CLASS_TEXT_COLORS[rowClass]}>{rowClass.slice(0, 4)}</span>
                       </span>
                     </td>

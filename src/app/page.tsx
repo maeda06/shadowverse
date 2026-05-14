@@ -10,7 +10,8 @@ import {
   getGuides,
   getCardEvaluations,
 } from "@/lib/data-store";
-import { CLASS_ICONS, CLASS_TEXT_COLORS, CLASS_BG_COLORS } from "@/lib/class-colors";
+import { CLASS_TEXT_COLORS, CLASS_BG_COLORS } from "@/lib/class-colors";
+import { ClassIcon } from "@/components/ClassIcon";
 import type { ClassStats } from "@/lib/types";
 
 function TrendBadge({ current, prev }: { current: number; prev: number }) {
@@ -40,7 +41,7 @@ function ClassStatCard({ stat }: { stat: ClassStats }) {
     <div className={`rounded-lg border ${CLASS_BG_COLORS[stat.className]} p-3`}>
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
-          <span className="text-xl">{CLASS_ICONS[stat.className]}</span>
+          <ClassIcon name={stat.className} size={28} />
           <span className={`text-sm font-semibold ${CLASS_TEXT_COLORS[stat.className]}`}>
             {stat.className}
           </span>
@@ -149,7 +150,7 @@ export default async function HomePage() {
                         </span>
                         <div>
                           <div className="flex items-center gap-2 mb-0.5">
-                            <span className="text-lg">{CLASS_ICONS[deck.className]}</span>
+                            <ClassIcon name={deck.className} size={22} />
                             <span className="font-semibold">{deck.name}</span>
                             {deck.tags.slice(0, 2).map((tag) => (
                               <Badge
@@ -244,8 +245,8 @@ export default async function HomePage() {
                   {video.classTags.length > 0 && (
                     <div className="flex gap-1 mb-1">
                       {video.classTags.map((cls) => (
-                        <span key={cls} className={`text-xs ${CLASS_TEXT_COLORS[cls]}`}>
-                          {CLASS_ICONS[cls]} {cls}
+                        <span key={cls} className={`text-xs flex items-center gap-0.5 ${CLASS_TEXT_COLORS[cls]}`}>
+                          <ClassIcon name={cls} size={14} /> {cls}
                         </span>
                       ))}
                     </div>
@@ -287,7 +288,7 @@ export default async function HomePage() {
                       <div>
                         <div className="flex items-center gap-2 mb-0.5">
                           {guide.className && (
-                            <span className="text-sm">{CLASS_ICONS[guide.className]}</span>
+                            <ClassIcon name={guide.className} size={18} />
                           )}
                           <Badge variant="outline" className="text-xs px-1.5 py-0">
                             {guide.category === "beginner" && "初心者"}
@@ -323,7 +324,7 @@ export default async function HomePage() {
                   <CardContent className="p-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <span className="text-lg">{CLASS_ICONS[card.className]}</span>
+                        <ClassIcon name={card.className} size={22} />
                         <div>
                           <p className="text-sm font-medium">{card.cardName}</p>
                           <p className="text-xs text-muted-foreground">

@@ -5,7 +5,8 @@ import { Clock, ChevronRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { GUIDES } from "@/lib/mock-data";
-import { CLASS_ICONS, CLASS_TEXT_COLORS } from "@/lib/class-colors";
+import { CLASS_TEXT_COLORS } from "@/lib/class-colors";
+import { ClassIcon } from "@/components/ClassIcon";
 
 const CATEGORY_LABELS = {
   beginner: { label: "初心者向け", color: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30" },
@@ -70,8 +71,8 @@ export default function GuidesPage() {
               <CardContent className="p-4">
                 <div className="flex items-start gap-4">
                   {guide.className ? (
-                    <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-xl shrink-0">
-                      {CLASS_ICONS[guide.className]}
+                    <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center shrink-0">
+                      <ClassIcon name={guide.className} size={28} />
                     </div>
                   ) : (
                     <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center shrink-0">

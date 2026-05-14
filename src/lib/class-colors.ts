@@ -1,5 +1,15 @@
 import type { ClassName } from "./types";
 
+export const CLASS_IMAGE_PATHS: Record<ClassName, string> = {
+  エルフ: "/class_elf.png",
+  ロイヤル: "/class_royal.png",
+  ウィッチ: "/class_witch.png",
+  ドラゴン: "/class_dragon.png",
+  ナイトメア: "/class_nightmare.png",
+  ビショップ: "/class_bishop.png",
+  ネメシス: "/class_nemesis.png",
+};
+
 export const CLASS_COLORS: Record<ClassName, string> = {
   エルフ: "#2E7D32",
   ロイヤル: "#1565C0",

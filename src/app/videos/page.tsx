@@ -4,7 +4,8 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { VIDEOS } from "@/lib/mock-data";
-import { CLASS_ICONS, CLASS_TEXT_COLORS } from "@/lib/class-colors";
+import { CLASS_TEXT_COLORS } from "@/lib/class-colors";
+import { ClassIcon } from "@/components/ClassIcon";
 import type { ClassName } from "@/lib/types";
 
 const ALL_TAGS = ["デッキ解説", "メタ解説", "初心者向け", "大会", "対戦動画"];
@@ -57,7 +58,7 @@ export default function VideosPage() {
                   : "bg-secondary text-muted-foreground hover:text-foreground"
               }`}
             >
-              {CLASS_ICONS[cls]} {cls}
+              <ClassIcon name={cls} size={14} /> {cls}
             </button>
           ))}
         </div>
@@ -118,8 +119,8 @@ export default function VideosPage() {
               <CardContent className="p-3 flex flex-col gap-2">
                 <div className="flex flex-wrap gap-1">
                   {video.classTags.map((cls) => (
-                    <span key={cls} className={`text-xs ${CLASS_TEXT_COLORS[cls]}`}>
-                      {CLASS_ICONS[cls]} {cls}
+                    <span key={cls} className={`text-xs flex items-center gap-0.5 ${CLASS_TEXT_COLORS[cls]}`}>
+                      <ClassIcon name={cls} size={14} /> {cls}
                     </span>
                   ))}
                   {video.tags.slice(0, 2).map((tag) => (

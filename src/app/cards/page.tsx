@@ -4,7 +4,8 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CARD_EVALUATIONS } from "@/lib/mock-data";
-import { CLASS_ICONS, CLASS_TEXT_COLORS, CLASS_BG_COLORS } from "@/lib/class-colors";
+import { CLASS_TEXT_COLORS, CLASS_BG_COLORS } from "@/lib/class-colors";
+import { ClassIcon } from "@/components/ClassIcon";
 import type { ClassName } from "@/lib/types";
 
 const RATING_COLORS: Record<string, string> = {
@@ -84,7 +85,7 @@ export default function CardsPage() {
                   : "bg-secondary text-muted-foreground hover:text-foreground"
               }`}
             >
-              {CLASS_ICONS[cls]} {cls}
+              <ClassIcon name={cls} size={16} /> {cls}
             </button>
           ))}
         </div>
@@ -126,7 +127,7 @@ export default function CardsPage() {
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-0.5">
-                        <span className="text-lg">{CLASS_ICONS[card.className]}</span>
+                        <ClassIcon name={card.className} size={22} />
                         <span className="font-bold">{card.cardName}</span>
                         <span className={`text-xs font-medium ${RARITY_COLORS[card.rarity]}`}>
                           {card.rarity}

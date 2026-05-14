@@ -5,7 +5,8 @@ import { TrendingUp, TrendingDown, Minus, ChevronDown, ChevronUp } from "lucide-
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { DECK_RANKINGS } from "@/lib/mock-data";
-import { CLASS_ICONS, CLASS_TEXT_COLORS, CLASS_BG_COLORS } from "@/lib/class-colors";
+import { CLASS_TEXT_COLORS, CLASS_BG_COLORS } from "@/lib/class-colors";
+import { ClassIcon } from "@/components/ClassIcon";
 import type { ClassName } from "@/lib/types";
 
 const DIFFICULTY_LABELS = ["", "★☆☆☆☆", "★★☆☆☆", "★★★☆☆", "★★★★☆", "★★★★★"];
@@ -55,7 +56,7 @@ export default function DecksPage() {
                 : "bg-secondary text-muted-foreground hover:text-foreground"
             }`}
           >
-            {CLASS_ICONS[cls]} {cls}
+            <ClassIcon name={cls} size={16} /> {cls}
           </button>
         ))}
       </div>
@@ -80,7 +81,7 @@ export default function DecksPage() {
                       </span>
                       <div>
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="text-xl">{CLASS_ICONS[deck.className]}</span>
+                          <ClassIcon name={deck.className} size={22} />
                           <span className="font-bold text-base">{deck.name}</span>
                         </div>
                         <div className="flex flex-wrap gap-1.5 mb-1">

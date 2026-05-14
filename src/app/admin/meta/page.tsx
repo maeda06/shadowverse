@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Save, RefreshCw } from "lucide-react";
-import { CLASS_ICONS } from "@/lib/class-colors";
+import { ClassIcon } from "@/components/ClassIcon";
 import type { WeeklyMeta, ClassStats, ClassName, Tier } from "@/lib/types";
 
 const CLASS_NAMES: ClassName[] = [
@@ -145,7 +145,7 @@ export default function AdminMetaPage() {
                   <tr key={cls} className="border-b border-border/40">
                     <td className="py-2 pr-4">
                       <span className="flex items-center gap-1.5 font-medium">
-                        {CLASS_ICONS[cls]} {cls}
+                        <ClassIcon name={cls} size={16} /> {cls}
                       </span>
                     </td>
                     {(["usageRate", "winRate", "prevUsageRate", "prevWinRate"] as const).map(field => (
