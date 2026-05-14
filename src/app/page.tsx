@@ -3,13 +3,13 @@ import { TrendingUp, TrendingDown, Minus, ArrowRight, Calendar, Play, BookOpen, 
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
-  CURRENT_WEEK,
-  DECK_RANKINGS,
-  EVENTS,
-  VIDEOS,
-  GUIDES,
-  CARD_EVALUATIONS,
-} from "@/lib/mock-data";
+  getWeeklyMeta,
+  getDecks,
+  getEvents,
+  getVideos,
+  getGuides,
+  getCardEvaluations,
+} from "@/lib/data-store";
 import { CLASS_ICONS, CLASS_TEXT_COLORS, CLASS_BG_COLORS } from "@/lib/class-colors";
 import type { ClassStats } from "@/lib/types";
 
@@ -70,12 +70,14 @@ function ClassStatCard({ stat }: { stat: ClassStats }) {
 }
 
 export default function HomePage() {
-  const top3Decks = DECK_RANKINGS.slice(0, 3);
-  const ongoingEvents = EVENTS.filter((e) => e.status === "ongoing");
-  const upcomingEvents = EVENTS.filter((e) => e.status === "upcoming").slice(0, 2);
-  const featuredVideos = VIDEOS.filter((v) => v.isCurated).slice(0, 3);
-  const latestGuides = GUIDES.slice(0, 3);
-  const topCards = CARD_EVALUATIONS.filter((c) => c.rating === "S" || c.rating === "A").slice(0, 3);
+  const CURRENT_WEEK = getWeeklyMeta();
+  const top3Decks = getDecks().slice(0, 3);
+  const allEvents = getEvents();
+  const ongoingEvents = allEvents.filter((e) => e.status === "ongoing");
+  const upcomingEvents = allEvents.filter((e) => e.status === "upcoming").slice(0, 2);
+  const featuredVideos = getVideos().filter((v) => v.isCurated).slice(0, 3);
+  const latestGuides = getGuides().slice(0, 3);
+  const topCards = getCardEvaluations().filter((c) => c.rating === "S" || c.rating === "A").slice(0, 3);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 space-y-12">

@@ -1,7 +1,7 @@
 import { Calendar, ExternalLink, Trophy, Sword } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { EVENTS } from "@/lib/mock-data";
+import { getEvents } from "@/lib/data-store";
 import type { Event } from "@/lib/types";
 
 const EVENT_TYPE_LABELS: Record<Event["type"], string> = {
@@ -82,9 +82,10 @@ function EventCard({ event }: { event: Event }) {
 }
 
 export default function EventsPage() {
-  const ongoing = EVENTS.filter((e) => e.status === "ongoing");
-  const upcoming = EVENTS.filter((e) => e.status === "upcoming");
-  const ended = EVENTS.filter((e) => e.status === "ended");
+  const events = getEvents();
+  const ongoing = events.filter((e) => e.status === "ongoing");
+  const upcoming = events.filter((e) => e.status === "upcoming");
+  const ended = events.filter((e) => e.status === "ended");
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 space-y-8">
