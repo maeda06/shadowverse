@@ -7,7 +7,7 @@ import type { Video, ClassName } from "@/lib/types";
 
 const ALL_CLASSES: ClassName[] = [
   "エルフ", "ロイヤル", "ウィッチ", "ドラゴン",
-  "ネクロマンサー", "ヴァンパイア", "ビショップ", "ネメシス",
+  "ナイトメア", "ビショップ", "ネメシス",
 ];
 
 function newVideo(): Video {

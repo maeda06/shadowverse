@@ -23,7 +23,7 @@ const RARITY_COLORS: Record<string, string> = {
 };
 
 const ALL_CLASSES: ClassName[] = [
-  "エルフ", "ロイヤル", "ウィッチ", "ドラゴン", "ネクロマンサー", "ヴァンパイア", "ビショップ", "ネメシス",
+  "エルフ", "ロイヤル", "ウィッチ", "ドラゴン", "ナイトメア", "ビショップ", "ネメシス",
 ];
 
 export default function CardsPage() {

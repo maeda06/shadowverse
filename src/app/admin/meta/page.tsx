@@ -7,7 +7,7 @@ import type { WeeklyMeta, ClassStats, ClassName, Tier } from "@/lib/types";
 
 const CLASS_NAMES: ClassName[] = [
   "エルフ", "ロイヤル", "ウィッチ", "ドラゴン",
-  "ネクロマンサー", "ヴァンパイア", "ビショップ", "ネメシス",
+  "ナイトメア", "ビショップ", "ネメシス",
 ];
 const TIERS: Tier[] = ["S", "A", "B", "C"];
 

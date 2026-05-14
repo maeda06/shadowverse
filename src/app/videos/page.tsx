@@ -9,7 +9,7 @@ import type { ClassName } from "@/lib/types";
 
 const ALL_TAGS = ["デッキ解説", "メタ解説", "初心者向け", "大会", "対戦動画"];
 const ALL_CLASSES: ClassName[] = [
-  "エルフ", "ロイヤル", "ウィッチ", "ドラゴン", "ネクロマンサー", "ヴァンパイア", "ビショップ", "ネメシス",
+  "エルフ", "ロイヤル", "ウィッチ", "ドラゴン", "ナイトメア", "ビショップ", "ネメシス",
 ];
 
 export default function VideosPage() {

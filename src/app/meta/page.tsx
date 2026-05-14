@@ -12,9 +12,9 @@ import { CURRENT_WEEK, PREV_WEEKS_USAGE, MATCHUP_DATA } from "@/lib/mock-data";
 import { CLASS_ICONS, CLASS_TEXT_COLORS } from "@/lib/class-colors";
 import type { ClassName } from "@/lib/types";
 
-const TREND_CLASSES: ClassName[] = ["ドラゴン", "ネクロマンサー", "エルフ", "ウィッチ", "ロイヤル"];
+const TREND_CLASSES: ClassName[] = ["ドラゴン", "ナイトメア", "エルフ", "ウィッチ", "ロイヤル"];
 
-const MATCHUP_CLASSES: ClassName[] = ["ドラゴン", "ネクロマンサー", "エルフ", "ウィッチ", "ロイヤル"];
+const MATCHUP_CLASSES: ClassName[] = ["ドラゴン", "ナイトメア", "エルフ", "ウィッチ", "ロイヤル"];
 
 function getMatchupRate(classA: ClassName, classB: ClassName): number | null {
   if (classA === classB) return null;

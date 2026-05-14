@@ -7,7 +7,7 @@ import type { CardEvaluation, ClassName } from "@/lib/types";
 
 const ALL_CLASSES: ClassName[] = [
   "エルフ", "ロイヤル", "ウィッチ", "ドラゴン",
-  "ネクロマンサー", "ヴァンパイア", "ビショップ", "ネメシス",
+  "ナイトメア", "ビショップ", "ネメシス",
 ];
 const RATINGS = ["S", "A", "B", "C", "D"] as const;
 const RARITIES = ["Legendary", "Gold", "Silver", "Bronze"] as const;
