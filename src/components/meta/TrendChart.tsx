@@ -16,9 +16,10 @@ import type { ClassName } from "@/lib/types";
 interface Props {
   data: Record<string, number | string>[];
   classes: ClassName[];
+  domain?: [number, number];
 }
 
-export function TrendChart({ data, classes }: Props) {
+export function TrendChart({ data, classes, domain }: Props) {
   return (
     <ResponsiveContainer width="100%" height={260}>
       <LineChart data={data} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
@@ -34,7 +35,7 @@ export function TrendChart({ data, classes }: Props) {
           axisLine={false}
           tick={{ fill: "#64748b", fontSize: 11 }}
           tickFormatter={(v) => `${v}%`}
-          domain={[0, 35]}
+          domain={domain ?? [0, 35]}
         />
         <Tooltip
           contentStyle={{
