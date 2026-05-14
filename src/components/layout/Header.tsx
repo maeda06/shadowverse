@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Menu, X, TrendingUp, Layers, Calendar, Play, Star, BookOpen } from "lucide-react";
@@ -23,9 +24,8 @@ export function Header() {
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
       <div className="mx-auto max-w-7xl px-4">
         <div className="flex h-14 items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 font-bold text-lg">
-            <span className="text-amber-400">SV</span>
-            <span className="text-foreground">-META.gg</span>
+          <Link href="/" className="flex items-center">
+            <Image src="/sv-meta-logo.png" alt="SV-META.gg" width={120} height={40} className="object-contain" />
           </Link>
 
           <nav className="hidden md:flex items-center gap-1">
