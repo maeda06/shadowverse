@@ -6,11 +6,13 @@ import { BarChart2, Layers, Calendar, Play, Star, ArrowRight } from "lucide-reac
 export default async function AdminDashboard() {
   await requireAdmin();
 
-  const meta = getWeeklyMeta();
-  const decks = getDecks();
-  const events = getEvents();
-  const videos = getVideos();
-  const cards = getCardEvaluations();
+  const [meta, decks, events, videos, cards] = await Promise.all([
+    getWeeklyMeta(),
+    getDecks(),
+    getEvents(),
+    getVideos(),
+    getCardEvaluations(),
+  ]);
 
   const stats = [
     { label: "週次メタ統計", value: `Week ${meta.weekNumber}`, href: "/admin/meta", icon: BarChart2, color: "text-amber-400" },

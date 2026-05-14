@@ -69,15 +69,21 @@ function ClassStatCard({ stat }: { stat: ClassStats }) {
   );
 }
 
-export default function HomePage() {
-  const CURRENT_WEEK = getWeeklyMeta();
-  const top3Decks = getDecks().slice(0, 3);
-  const allEvents = getEvents();
+export default async function HomePage() {
+  const [CURRENT_WEEK, allDecks, allEvents, allVideos, allGuides, allCards] = await Promise.all([
+    getWeeklyMeta(),
+    getDecks(),
+    getEvents(),
+    getVideos(),
+    getGuides(),
+    getCardEvaluations(),
+  ]);
+  const top3Decks = allDecks.slice(0, 3);
   const ongoingEvents = allEvents.filter((e) => e.status === "ongoing");
   const upcomingEvents = allEvents.filter((e) => e.status === "upcoming").slice(0, 2);
-  const featuredVideos = getVideos().filter((v) => v.isCurated).slice(0, 3);
-  const latestGuides = getGuides().slice(0, 3);
-  const topCards = getCardEvaluations().filter((c) => c.rating === "S" || c.rating === "A").slice(0, 3);
+  const featuredVideos = allVideos.filter((v) => v.isCurated).slice(0, 3);
+  const latestGuides = allGuides.slice(0, 3);
+  const topCards = allCards.filter((c) => c.rating === "S" || c.rating === "A").slice(0, 3);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 space-y-12">

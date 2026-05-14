@@ -81,8 +81,8 @@ function EventCard({ event }: { event: Event }) {
   );
 }
 
-export default function EventsPage() {
-  const events = getEvents();
+export default async function EventsPage() {
+  const events = await getEvents();
   const ongoing = events.filter((e) => e.status === "ongoing");
   const upcoming = events.filter((e) => e.status === "upcoming");
   const ended = events.filter((e) => e.status === "ended");
