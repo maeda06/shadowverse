@@ -35,8 +35,9 @@ export interface Deck {
   description: string;
   strategy: string;
   keyCards: string[];
-  deckCode: string;
+  keyCardImages?: string[];
   sampleCount: number;
+  imageUrl?: string;
 }
 
 export interface Event {

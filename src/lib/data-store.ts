@@ -68,8 +68,9 @@ export async function getDecks(): Promise<Deck[]> {
     description: d.description,
     strategy: d.strategy,
     keyCards: d.key_cards,
-    deckCode: d.deck_code,
+    keyCardImages: d.key_card_images ?? [],
     sampleCount: d.sample_count,
+    imageUrl: d.image_url ?? "",
   }));
 }
 
@@ -92,8 +93,9 @@ export async function saveDecks(decks: Deck[]): Promise<void> {
       description: d.description,
       strategy: d.strategy,
       key_cards: d.keyCards,
-      deck_code: d.deckCode,
+      key_card_images: d.keyCardImages ?? [],
       sample_count: d.sampleCount,
+      image_url: d.imageUrl || null,
     }))
   );
 }

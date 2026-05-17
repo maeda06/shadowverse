@@ -2,8 +2,6 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
-import { Check, Copy } from "lucide-react";
 import { ClassIcon } from "@/components/ClassIcon";
 import { CLASS_TEXT_COLORS, CLASS_BG_COLORS, CLASS_ART_PATHS } from "@/lib/class-colors";
 import type { Deck } from "@/lib/types";
@@ -14,15 +12,6 @@ interface Props {
 }
 
 export function DeckCard({ deck, rank }: Props) {
-  const [copied, setCopied] = useState(false);
-
-  function copyDeckCode() {
-    navigator.clipboard.writeText(deck.deckCode).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
-  }
-
   const envAdapt = deck.winRate >= 53 ? "S" : deck.winRate >= 51 ? "A" : "B";
   const envColor = envAdapt === "S" ? "text-amber-400" : envAdapt === "A" ? "text-blue-400" : "text-slate-400";
   const rankBg = rank === 1 ? "bg-amber-400 text-black" : rank === 2 ? "bg-slate-300 text-black" : "bg-amber-800 text-white";
@@ -82,23 +71,13 @@ export function DeckCard({ deck, rank }: Props) {
           </div>
         )}
 
-        <div className="mt-auto flex gap-2 pt-1">
+        <div className="mt-auto pt-1">
           <Link
             href="/decks"
-            className="flex-1 text-center text-xs border border-white/15 rounded-xl py-2.5 hover:bg-white/5 transition-colors font-medium"
+            className="block w-full text-center text-xs border border-white/15 rounded-xl py-2.5 hover:bg-white/5 transition-colors font-medium"
           >
-            デッキ詳細
+            デッキ詳細を見る
           </Link>
-          <button
-            onClick={copyDeckCode}
-            className={`flex-1 flex items-center justify-center gap-1.5 text-xs rounded-xl py-2.5 font-medium transition-colors ${
-              copied
-                ? "bg-emerald-400/20 border border-emerald-400/40 text-emerald-400"
-                : "bg-amber-400/10 border border-amber-400/30 text-amber-400 hover:bg-amber-400/20"
-            }`}
-          >
-            {copied ? <><Check size={12} /> コピー済み</> : <><Copy size={12} /> デッキコードをコピー</>}
-          </button>
         </div>
       </div>
     </div>

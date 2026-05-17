@@ -28,8 +28,9 @@ function newDeck(): Deck {
     description: "",
     strategy: "",
     keyCards: [],
-    deckCode: "",
+    keyCardImages: [],
     sampleCount: 0,
+    imageUrl: "",
   };
 }
 
@@ -188,12 +189,6 @@ export default function AdminDecksPage() {
                   onChange={e => update(deck.id, "sampleCount", +e.target.value)}
                   className="w-full bg-secondary border border-border rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400/50" />
               </div>
-              <div>
-                <label className="block text-xs text-muted-foreground mb-1">デッキコード</label>
-                <input type="text" placeholder="SVWB-X000-2026" value={deck.deckCode}
-                  onChange={e => update(deck.id, "deckCode", e.target.value)}
-                  className="w-full bg-secondary border border-border rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400/50 font-mono" />
-              </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -215,6 +210,29 @@ export default function AdminDecksPage() {
                   value={deck.tags.join(", ")}
                   onChange={e => update(deck.id, "tags", e.target.value.split(",").map(s => s.trim()).filter(Boolean))}
                   className="w-full bg-secondary border border-border rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400/50"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs text-muted-foreground mb-1">デッキレシピ画像URL</label>
+                <input
+                  type="text"
+                  placeholder="https://..."
+                  value={deck.imageUrl ?? ""}
+                  onChange={e => update(deck.id, "imageUrl", e.target.value)}
+                  className="w-full bg-secondary border border-border rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400/50 font-mono"
+                />
+              </div>
+              <div>
+                <label className="block text-xs text-muted-foreground mb-1">キーカード画像URL（カンマ区切り・カード名と同順）</label>
+                <input
+                  type="text"
+                  placeholder="https://...card1.png, https://...card2.png"
+                  value={(deck.keyCardImages ?? []).join(", ")}
+                  onChange={e => update(deck.id, "keyCardImages", e.target.value.split(",").map(s => s.trim()).filter(Boolean))}
+                  className="w-full bg-secondary border border-border rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400/50 font-mono"
                 />
               </div>
             </div>

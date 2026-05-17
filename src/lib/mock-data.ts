@@ -93,7 +93,6 @@ export const DECK_RANKINGS: Deck[] = [
     strategy:
       "序盤（1-3PP）は加速カードで手札を整え、中盤（4-6PP）に強力なフォロワーで盤面を制圧。終盤は疾走フォロワーでトドメを刺す。",
     keyCards: ["竜の加速師", "飛竜の斥候", "竜将バハムート", "古竜の覇者"],
-    deckCode: "SVWB-D001-2026",
     sampleCount: 18432,
   },
   {
@@ -112,7 +111,6 @@ export const DECK_RANKINGS: Deck[] = [
     strategy:
       "骸骨系フォロワーを展開しつつ、バフカードで一気に強化。相手の除去が間に合わないうちに盤面勝ちを狙う。",
     keyCards: ["骸骨の王", "死の舞踏", "ゴーストライダー", "骨の軍勢"],
-    deckCode: "SVWB-N002-2026",
     sampleCount: 12104,
   },
   {
@@ -131,7 +129,6 @@ export const DECK_RANKINGS: Deck[] = [
     strategy:
       "序盤は手札を温存しつつ展開を防ぎ、コンボパーツが揃った瞬間に一気に決める。マリガンが非常に重要。",
     keyCards: ["妖精の長弓手", "森の意志", "エルフの少女リザ", "妖精の輪舞"],
-    deckCode: "SVWB-E003-2026",
     sampleCount: 10087,
   },
   {
@@ -150,7 +147,6 @@ export const DECK_RANKINGS: Deck[] = [
     strategy:
       "秘術カウントを稼ぎながら相手のフォロワーを除去し続ける。十分なカウントが貯まったらフィニッシャーで一気に決着。",
     keyCards: ["ルーンの魔法使い", "土の秘術師", "マジックミサイル", "大魔法使いマーリン"],
-    deckCode: "SVWB-W004-2026",
     sampleCount: 8034,
   },
   {
@@ -168,7 +164,6 @@ export const DECK_RANKINGS: Deck[] = [
     description: "低コストの兵士フォロワーを連打して早期決着を狙うアグレッシブなデッキ。",
     strategy: "1〜3PPの強力なフォロワーを連打して序盤から圧力をかける。6ターン以内の決着を目指す。",
     keyCards: ["精鋭の剣士", "騎士団の指揮官", "英雄の剣", "旗手の号令"],
-    deckCode: "SVWB-R005-2026",
     sampleCount: 5891,
   },
   {
@@ -186,7 +181,6 @@ export const DECK_RANKINGS: Deck[] = [
     description: "自分にダメージを与えることで強化される狂乱状態を活かすアグロデッキ。",
     strategy: "自傷カードで狂乱状態を早期に達成し、強化されたフォロワーで一気に畳み込む。",
     keyCards: ["血の渇望", "狂乱の吸血鬼", "夜の捕食者", "血染めの薔薇"],
-    deckCode: "SVWB-V006-2026",
     sampleCount: 3362,
   },
 ];
