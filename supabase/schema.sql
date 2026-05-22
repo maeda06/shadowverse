@@ -16,22 +16,23 @@ CREATE TABLE IF NOT EXISTS weekly_meta (
 
 -- ②デッキランキング
 CREATE TABLE IF NOT EXISTS decks (
-  id           TEXT PRIMARY KEY,
-  name         TEXT NOT NULL,
-  class_name   TEXT NOT NULL,
-  archetype    TEXT NOT NULL DEFAULT '',
-  rank         INT NOT NULL DEFAULT 99,
-  win_rate     FLOAT NOT NULL DEFAULT 50,
-  usage_rate   FLOAT NOT NULL DEFAULT 0,
-  prev_win_rate FLOAT NOT NULL DEFAULT 50,
-  difficulty   INT NOT NULL DEFAULT 3,
-  cost_level   INT NOT NULL DEFAULT 3,
-  tags         TEXT[] NOT NULL DEFAULT '{}',
-  description  TEXT NOT NULL DEFAULT '',
-  strategy     TEXT NOT NULL DEFAULT '',
-  key_cards    TEXT[] NOT NULL DEFAULT '{}',
-  deck_code    TEXT NOT NULL DEFAULT '',
-  sample_count INT NOT NULL DEFAULT 0
+  id              TEXT PRIMARY KEY,
+  name            TEXT NOT NULL,
+  class_name      TEXT NOT NULL,
+  archetype       TEXT NOT NULL DEFAULT '',
+  rank            INT NOT NULL DEFAULT 99,
+  win_rate        FLOAT NOT NULL DEFAULT 50,
+  usage_rate      FLOAT NOT NULL DEFAULT 0,
+  prev_win_rate   FLOAT NOT NULL DEFAULT 50,
+  difficulty      INT NOT NULL DEFAULT 3,
+  cost_level      INT NOT NULL DEFAULT 3,
+  tags            TEXT[] NOT NULL DEFAULT '{}',
+  description     TEXT NOT NULL DEFAULT '',
+  strategy        TEXT NOT NULL DEFAULT '',
+  key_cards       TEXT[] NOT NULL DEFAULT '{}',
+  key_card_images TEXT[] NOT NULL DEFAULT '{}',
+  sample_count    INT NOT NULL DEFAULT 0,
+  image_url       TEXT
 );
 
 -- ③イベント

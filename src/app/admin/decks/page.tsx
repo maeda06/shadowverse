@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Plus, Trash2, Save, RefreshCw } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Plus, Trash2, Save, RefreshCw, Upload } from "lucide-react";
 import { CLASS_ICONS } from "@/lib/class-colors";
 import type { Deck, ClassName } from "@/lib/types";
 
@@ -34,10 +34,20 @@ function newDeck(): Deck {
   };
 }
 
+async function uploadImage(file: File): Promise<string> {
+  const fd = new FormData();
+  fd.append("file", file);
+  const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
+  if (!res.ok) throw new Error("Upload failed");
+  const { url } = await res.json();
+  return url;
+}
+
 export default function AdminDecksPage() {
   const [decks, setDecks] = useState<Deck[]>([]);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [uploading, setUploading] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     fetch("/api/admin/decks").then(r => r.json()).then(setDecks);
@@ -54,6 +64,26 @@ export default function AdminDecksPage() {
   function removeDeck(id: string) {
     if (!confirm("このデッキを削除しますか？")) return;
     setDecks(decks.filter(d => d.id !== id));
+  }
+
+  async function handleImageUpload(id: string, file: File, field: "imageUrl" | "keyCardImages", appendIndex?: number) {
+    setUploading(u => ({ ...u, [`${id}-${field}-${appendIndex ?? 0}`]: true }));
+    try {
+      const url = await uploadImage(file);
+      if (field === "imageUrl") {
+        update(id, "imageUrl", url);
+      } else {
+        const deck = decks.find(d => d.id === id)!;
+        const imgs = [...(deck.keyCardImages ?? [])];
+        if (appendIndex !== undefined) imgs[appendIndex] = url;
+        else imgs.push(url);
+        update(id, "keyCardImages", imgs);
+      }
+    } catch {
+      alert("画像のアップロードに失敗しました");
+    } finally {
+      setUploading(u => ({ ...u, [`${id}-${field}-${appendIndex ?? 0}`]: false }));
+    }
   }
 
   async function handleSave() {
@@ -214,26 +244,50 @@ export default function AdminDecksPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="space-y-3">
               <div>
-                <label className="block text-xs text-muted-foreground mb-1">デッキレシピ画像URL</label>
-                <input
-                  type="text"
-                  placeholder="https://..."
-                  value={deck.imageUrl ?? ""}
-                  onChange={e => update(deck.id, "imageUrl", e.target.value)}
-                  className="w-full bg-secondary border border-border rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400/50 font-mono"
-                />
+                <label className="block text-xs text-muted-foreground mb-1">デッキレシピ画像</label>
+                <div className="flex gap-2 items-center">
+                  <input
+                    type="text"
+                    placeholder="https://..."
+                    value={deck.imageUrl ?? ""}
+                    onChange={e => update(deck.id, "imageUrl", e.target.value)}
+                    className="flex-1 bg-secondary border border-border rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400/50 font-mono"
+                  />
+                  <label className={`flex items-center gap-1.5 cursor-pointer px-3 py-1.5 rounded-lg border border-border bg-secondary text-xs hover:bg-secondary/80 transition-colors ${uploading[`${deck.id}-imageUrl-0`] ? "opacity-50 pointer-events-none" : ""}`}>
+                    {uploading[`${deck.id}-imageUrl-0`] ? <RefreshCw size={12} className="animate-spin" /> : <Upload size={12} />}
+                    アップロード
+                    <input type="file" accept="image/*" className="hidden" onChange={e => { const f = e.target.files?.[0]; if (f) handleImageUpload(deck.id, f, "imageUrl"); e.target.value = ""; }} />
+                  </label>
+                  {deck.imageUrl && <img src={deck.imageUrl} alt="" className="w-10 h-10 object-cover rounded border border-border" />}
+                </div>
               </div>
               <div>
-                <label className="block text-xs text-muted-foreground mb-1">キーカード画像URL（カンマ区切り・カード名と同順）</label>
-                <input
-                  type="text"
-                  placeholder="https://...card1.png, https://...card2.png"
-                  value={(deck.keyCardImages ?? []).join(", ")}
-                  onChange={e => update(deck.id, "keyCardImages", e.target.value.split(",").map(s => s.trim()).filter(Boolean))}
-                  className="w-full bg-secondary border border-border rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400/50 font-mono"
-                />
+                <label className="block text-xs text-muted-foreground mb-1">キーカード画像（カード名と同順）</label>
+                <div className="space-y-1.5">
+                  {(deck.keyCardImages ?? []).map((url, i) => (
+                    <div key={i} className="flex gap-2 items-center">
+                      <input
+                        type="text"
+                        value={url}
+                        onChange={e => { const imgs = [...(deck.keyCardImages ?? [])]; imgs[i] = e.target.value; update(deck.id, "keyCardImages", imgs); }}
+                        className="flex-1 bg-secondary border border-border rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-amber-400/50 font-mono"
+                      />
+                      <label className={`flex items-center gap-1 cursor-pointer px-2 py-1.5 rounded-lg border border-border bg-secondary text-xs hover:bg-secondary/80 transition-colors ${uploading[`${deck.id}-keyCardImages-${i}`] ? "opacity-50 pointer-events-none" : ""}`}>
+                        {uploading[`${deck.id}-keyCardImages-${i}`] ? <RefreshCw size={11} className="animate-spin" /> : <Upload size={11} />}
+                        <input type="file" accept="image/*" className="hidden" onChange={e => { const f = e.target.files?.[0]; if (f) handleImageUpload(deck.id, f, "keyCardImages", i); e.target.value = ""; }} />
+                      </label>
+                      {url && <img src={url} alt="" className="w-8 h-8 object-cover rounded border border-border" />}
+                      <button onClick={() => { const imgs = (deck.keyCardImages ?? []).filter((_, j) => j !== i); update(deck.id, "keyCardImages", imgs); }} className="text-muted-foreground hover:text-red-400 text-xs">✕</button>
+                    </div>
+                  ))}
+                  <label className={`inline-flex items-center gap-1.5 cursor-pointer px-3 py-1.5 rounded-lg border border-dashed border-border text-xs text-muted-foreground hover:text-foreground hover:border-amber-400/50 transition-colors ${uploading[`${deck.id}-keyCardImages-add`] ? "opacity-50 pointer-events-none" : ""}`}>
+                    {uploading[`${deck.id}-keyCardImages-add`] ? <RefreshCw size={11} className="animate-spin" /> : <Upload size={11} />}
+                    キーカード画像を追加
+                    <input type="file" accept="image/*" className="hidden" onChange={e => { const f = e.target.files?.[0]; if (f) handleImageUpload(deck.id, f, "keyCardImages"); e.target.value = ""; }} />
+                  </label>
+                </div>
               </div>
             </div>
           </div>
