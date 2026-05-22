@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Plus, Trash2, Save, RefreshCw, Upload } from "lucide-react";
+import { Plus, Trash2, Save, RefreshCw, Upload, FileDown, FileUp, AlertCircle, CheckCircle2, X } from "lucide-react";
 import { CLASS_ICONS } from "@/lib/class-colors";
 import type { Deck, ClassName } from "@/lib/types";
 
@@ -43,11 +43,18 @@ async function uploadImage(file: File): Promise<string> {
   return url;
 }
 
+type ImportState =
+  | { status: "idle" }
+  | { status: "loading" }
+  | { status: "preview"; decks: Deck[]; mode: "add" | "replace" }
+  | { status: "error"; message: string };
+
 export default function AdminDecksPage() {
   const [decks, setDecks] = useState<Deck[]>([]);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [uploading, setUploading] = useState<Record<string, boolean>>({});
+  const [importState, setImportState] = useState<ImportState>({ status: "idle" });
 
   useEffect(() => {
     fetch("/api/admin/decks").then(r => r.json()).then(setDecks);
@@ -100,6 +107,26 @@ export default function AdminDecksPage() {
     setSaving(false);
   }
 
+  async function handleCSVFile(file: File) {
+    setImportState({ status: "loading" });
+    const fd = new FormData();
+    fd.append("file", file);
+    const res = await fetch("/api/admin/import", { method: "POST", body: fd });
+    const json = await res.json();
+    if (!res.ok) {
+      setImportState({ status: "error", message: json.error ?? "パースエラー" });
+      return;
+    }
+    setImportState({ status: "preview", decks: json.decks, mode: "add" });
+  }
+
+  function confirmImport(mode: "add" | "replace") {
+    if (importState.status !== "preview") return;
+    const imported = importState.decks;
+    setDecks(mode === "replace" ? imported : [...decks, ...imported]);
+    setImportState({ status: "idle" });
+  }
+
   return (
     <div className="p-8 max-w-5xl">
       <div className="flex items-center justify-between mb-6">
@@ -108,6 +135,18 @@ export default function AdminDecksPage() {
           <p className="text-sm text-muted-foreground mt-0.5">{decks.length}件のデッキ</p>
         </div>
         <div className="flex gap-2">
+          <a
+            href="/api/admin/import"
+            download="deck_template.csv"
+            className="flex items-center gap-2 bg-secondary border border-border px-4 py-2 rounded-lg text-sm hover:bg-secondary/80 transition-colors"
+          >
+            <FileDown size={14} /> テンプレート
+          </a>
+          <label className={`flex items-center gap-2 bg-secondary border border-border px-4 py-2 rounded-lg text-sm hover:bg-secondary/80 transition-colors cursor-pointer ${importState.status === "loading" ? "opacity-50 pointer-events-none" : ""}`}>
+            {importState.status === "loading" ? <RefreshCw size={14} className="animate-spin" /> : <FileUp size={14} />}
+            CSVインポート
+            <input type="file" accept=".csv" className="hidden" onChange={e => { const f = e.target.files?.[0]; if (f) handleCSVFile(f); e.target.value = ""; }} />
+          </label>
           <button
             onClick={addDeck}
             className="flex items-center gap-2 bg-secondary border border-border px-4 py-2 rounded-lg text-sm hover:bg-secondary/80 transition-colors"
@@ -124,6 +163,51 @@ export default function AdminDecksPage() {
           </button>
         </div>
       </div>
+
+      {/* インポートエラー */}
+      {importState.status === "error" && (
+        <div className="flex items-center gap-3 bg-red-500/10 border border-red-500/30 rounded-xl px-4 py-3 mb-4 text-sm">
+          <AlertCircle size={16} className="text-red-400 shrink-0" />
+          <span className="text-red-400">{importState.message}</span>
+          <button onClick={() => setImportState({ status: "idle" })} className="ml-auto text-muted-foreground hover:text-foreground"><X size={14} /></button>
+        </div>
+      )}
+
+      {/* インポートプレビューモーダル */}
+      {importState.status === "preview" && (
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+          <div className="bg-card border border-border rounded-2xl p-6 max-w-md w-full shadow-xl">
+            <div className="flex items-center gap-3 mb-4">
+              <CheckCircle2 size={20} className="text-amber-400" />
+              <h2 className="text-base font-semibold">インポート確認</h2>
+            </div>
+            <p className="text-sm text-muted-foreground mb-2">
+              <span className="text-foreground font-medium">{importState.decks.length}件</span>のデッキを読み込みました。
+            </p>
+            <ul className="text-xs text-muted-foreground space-y-1 mb-5 max-h-40 overflow-y-auto bg-secondary rounded-lg p-3">
+              {importState.decks.map((d, i) => (
+                <li key={i}>{d.rank}位 {d.name} ({d.className})</li>
+              ))}
+            </ul>
+            <p className="text-sm font-medium mb-3">既存のデッキをどうしますか？</p>
+            <div className="grid grid-cols-2 gap-3 mb-3">
+              <button
+                onClick={() => confirmImport("add")}
+                className="py-2 rounded-lg border border-border text-sm hover:bg-secondary transition-colors"
+              >
+                既存に追加する
+              </button>
+              <button
+                onClick={() => confirmImport("replace")}
+                className="py-2 rounded-lg bg-amber-400 text-black font-semibold text-sm hover:bg-amber-300 transition-colors"
+              >
+                全て置き換える
+              </button>
+            </div>
+            <button onClick={() => setImportState({ status: "idle" })} className="w-full text-xs text-muted-foreground hover:text-foreground">キャンセル</button>
+          </div>
+        </div>
+      )}
 
       <div className="space-y-4">
         {decks.map(deck => (
